@@ -19,6 +19,7 @@ myApp.directive('person', function(){
     }
 });
 
+
 myApp.directive('contenteditable', function() {
     return {
         require: 'ngModel',
