@@ -1,0 +1,200 @@
+<!--
+
+window.$scope = $scope'
+
+Comsole:
+-------------
+	
+	angular.element($0).scope().place
+	
+	angular.element($0).scope().name
+	
+	angular.element($0).scope().__proto__.name
+
+	$scope.$apply()  // To apply the changes: Binding 
+
+	{{addContactForm.$valid}}
+
+
+
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="alternate" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<style type="text/css" media="screen">
+		tr{
+			cursor: pointer;
+		}
+		.filled{
+			background-color: rgb(210, 210, 225);
+		}
+		input.ng-invalid.ng-dirty{
+			border: 1px solid red;
+		}
+	</style>
+		
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script type="text/javascript">
+
+		angular.module('filtersModule', []).filter('capitalize', function() {
+			return function(word){
+				return word[0].toUpperCase() + word.slice(1).toLowerCase();
+			}
+		});
+		var app = angular.module('main', ['filtersModule'])
+		/*app.controller('ContactsController', function($scope){
+			$scope.name = "parent",
+			$scope.show = true,
+			window.$scope = $scope
+			
+		});
+		app.controller('AddressController', function($scope){
+			$scope.parentName = $scope.name,
+			$scope.place = "Bangalore",
+			window.$scope = $scope,
+			$scope.name = 'child'
+			
+		});
+
+		app.filter('capitalize', function() {
+			return function(word){
+				return word[0].toUpperCase() + word.slice(1).toLowerCase();
+			}
+		});*/
+
+		app.controller('ContactsController', function($scope){
+			$scope.contacts =[
+				{id: 1, name: "vinay", place: "Blr"},
+				{id: 2, name: "Test", place: "Blr"}
+			],
+			$scope.contacts.forEach(function(value, i){
+				//console.log($scope.contacts[i].edit = false);
+				$scope.contacts[i].edit = true
+			});
+
+			$scope.showObj = false,
+			$scope.showEditPage = false,
+			$scope.tempUser
+			 $scope.save  = function(){
+				//var tmpContact = {name: this.name, place: this.place, edit: true}
+				var user = angular.copy($scope.tempuser)
+				console.log(user);
+				$scope.contacts.push($scope.tempUser)
+			},
+			$scope.delete = function(){
+				var obj = this.contact
+				var pos = $scope.contacts.indexOf(this.contact)
+				console.log(pos);
+				$scope.contacts.splice(pos, 1)
+				console.log($scope.contacts);
+			},
+			$scope.show = function() {
+				console.log(this.contact)
+				$scope.showObj = true	
+				$scope.tempObj = this.contact
+			},
+			$scope.edit = function() {
+				console.log(this.contact)
+				//$scope.showEditPage = true
+				var pos = $scope.contacts.indexOf(this.contact)
+				//$scope.tempObj = this.contact
+				$scope.contacts[pos].edit = false
+				$scope.tempObjBefore = this.contact
+			},
+			$scope.update = function() {
+				console.log(this.contact)
+				//$scope.showEditPage = false
+				var pos = $scope.contacts.indexOf(this.contact)
+				$scope.contacts[pos].edit = true
+				//$scope.contacts[pos].name = $scope.tempObj.name
+				//$scope.contacts[pos].place = $scope.tempObj.place
+			},
+			$scope.cancel = function() {
+				console.log(this.contact)
+				//$scope.showEditPage = false
+				var pos = $scope.contacts.indexOf(this.contact)
+
+				$scope.contacts[pos].name = $scope.tempObjBefore.name
+				$scope.contacts[pos].place = $scope.tempObjBefore.place
+
+				$scope.contacts[pos].edit = true
+			},
+			window.$scope = $scope
+		});	
+	</script>
+</head>
+<body ng-app ="main">
+	<div ng-controller="ContactsController">
+		Filter by Serch: <input type="text" name="" value="" placeholder="" ng-model="search">
+		<table class="table container ">
+			<thead>
+				<tr>
+					<th>Contacts List</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-attr="{{'contact-' + contact.id}}" ng-repeat="contact in contacts | filter: search">
+					<td>
+						<span ng-show="contact.edit">{{contact.name | capitalize}}</span>
+						<span ng-hide="contact.edit"><input type="text" name="" value="" ng-model="contact.name"></span>
+					</td>
+
+					<td>
+						<span ng-show="contact.edit">{{contact.place}}</span>
+						<span ng-hide="contact.edit"><input type="text" name="" value="" ng-model="contact.place"></span>
+					</td>
+					
+					<td>
+						<span ng-show="contact.edit"><button class="btn btn-primary" type="" ng-click="edit()">Edit</button></span>
+
+						<span ng-hide="contact.edit"><button class="btn btn-success" type="" ng-click="update()">Update</button></span>
+						<span ng-hide="contact.edit"><button class="btn btn-warning" type="" ng-click="cancel()">Cancel</button></span>
+
+					</td>
+					<td><button class="btn btn-danger" type="" ng-click="delete()">Delete</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<form  name="addContactForm"  ng-submit="addContactForm.$valid && save()" novalidate  ng-class="{filled: name || place}" class="panel-body bs-callout bs-callout-warning">	
+			<span ng-show="addContactForm.name.$error.required">Name is required</span>
+			<input type="text" name="name" value="" placeholder="" ng-model="tempUser.name" autofocus required>
+			<span ng-show="addContactForm.place.$error.required">Place is required</span>
+			<input type="text" name="place" value="" placeholder="" ng-model="tempUser.place" required>
+			<input type="hidden" name="edit" value="true" placeholder="" ng-model="tempUser.edit" >
+			<input t
+			ype="submit" ng-click="save()" class="btn btn-danger" value="Add Contact"><!--<span class="glyphicon glyphicon-plus"></span> --></input>
+		</form>
+
+		<div ng-show="showObj">
+			<hr/>
+			<h3>Show</h3>
+			Name: {{tempObj.name}} <br/>
+			Place: {{tempObj.place}}
+		</div>
+
+		<div ng-show="showEditPage">
+			<hr/>
+			<h3>Edit</h3>
+			<input type="text" name="name" value="" ng-model="tempObj.name">
+			<input type="text" name="place" value="" ng-model="tempObj.place">
+			<button class="btn btn-success" type="" ng-click="update()">Update</button>
+		</div>
+			
+		</div>
+
+		<!--<svg ng-controller="svgController">
+			<circle cx="30" cy="30" r="10">
+		</svg>-->
+
+	</div>
+
+</body>
+</html>

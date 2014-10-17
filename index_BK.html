@@ -1,0 +1,147 @@
+<!--
+
+window.$scope = $scope'
+
+Comsole:
+-------------
+	
+	angular.element($0).scope().place
+	
+	angular.element($0).scope().name
+	
+	angular.element($0).scope().__proto__.name
+
+	$scope.$apply()
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style type="text/css" media="screen">
+		tr{
+			cursor: pointer;
+		}
+	</style>
+		
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script type="text/javascript">
+		var app = angular.module('main', [])
+		/*app.controller('ContactsController', function($scope){
+			$scope.name = "parent",
+			$scope.show = true,
+			window.$scope = $scope
+			
+		});
+		app.controller('AddressController', function($scope){
+			$scope.parentName = $scope.name,
+			$scope.place = "Bangalore",
+			window.$scope = $scope,
+			$scope.name = 'child'
+			
+		});*/
+
+		app.controller('ContactsController', function($scope){
+			$scope.contacts =[
+				{name: "vinay", place: "Blr"},
+				{name: "Test", place: "Blr"}
+			],
+			$scope.showObj = false,
+			$scope.showEditPage = false,
+			 $scope.save  = function(){
+				var tmpContact = {name: this.name, place: this.place}
+				$scope.contacts.push(tmpContact)
+			},
+			$scope.delete = function(){
+				var obj = this.contact
+				var pos = $scope.contacts.indexOf(this.contact)
+				console.log(pos);
+				$scope.contacts.splice(pos, 1)
+				console.log($scope.contacts);
+			},
+			$scope.show = function() {
+				console.log(this.contact)
+				$scope.showObj = true   
+				$scope.tempObj = this.contact
+			},
+			$scope.edit = function() {
+				console.log(this.contact)
+				$scope.showEditPage = true
+				var pos = $scope.contacts.indexOf(this.contact)
+				$scope.tempObj = this.contact
+			},
+			$scope.update = function() {
+				console.log(this.contact)
+				$scope.showEditPage = false
+				var pos = $scope.contacts.indexOf(this.contact)
+				//$scope.contacts[pos].name = $scope.tempObj.name
+				//$scope.contacts[pos].place = $scope.tempObj.place
+			},
+			window.$scope = $scope
+		});
+	
+	</script>
+</head>
+<body ng-app ="main">
+	<div ng-controller="ContactsController">
+		<!--<input type="checkbox" name="" value="" ng-model="show">-->
+		<!--<div ng-show="edit">
+			<input type="text" name="" value="" placeholder="" ng-model="name">
+		</div>
+		<button ng-hide = "edit" ng-click="edit = !edit">Show/Edit Controls</button>
+		<button ng-show = "edit" ng-click="edit = !edit">Show/Edit Controls</button>
+	
+		<div ng-controller="AddressController">
+			<input ng-model="name">
+			<div>{{name}}, {{place}}</div>
+			<div>{{parentName}}</div>
+		</div>-->
+
+		<table>
+			<thead>
+				<tr>
+					<th>Contacts List</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="contact in contacts">
+					<td ng-click="show ()">{{contact.name}}</td>
+					<td ng-click="show ()">{{contact.place}}</td>
+					<td><button type="" ng-click="edit()">Edit</button></td>
+					<td><button type="" ng-click="delete()">Delete</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<form>
+			<input type="text" name="" value="" placeholder="" ng-model="name">
+			<input type="text" name="" value="" placeholder="" ng-model="place">
+			<button type="" ng-click="save()" class="btn btn-danger">Add <span class="glyphicon glypicon-plus" </button>
+		</form>
+
+		<div ng-show="showObj">
+			<hr/>
+			<h3>Show</h3>
+			Name: {{tempObj.name}} <br/>
+			Place: {{tempObj.place}}
+		</div>
+
+		<div ng-show="showEditPage">
+			<hr/>
+			<h3>Edit</h3>
+			<input type="text" name="name" value="" ng-model="tempObj.name">
+			<input type="text" name="place" value="" ng-model="tempObj.place">
+			<button type="" ng-click="update()">Update</button>
+		</div>
+			
+		</div>
+
+
+	</div>
+
+</body>
+</html>

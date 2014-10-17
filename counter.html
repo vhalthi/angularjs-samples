@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>n</title>
+	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="alternate" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script type="text/javascript">
+		
+		var counterModule = angular.module('counter', []) 
+		/*counterModule.factory('Counter',  function(){
+			var counter = 1
+			return {
+				get: function(){
+					return counter;
+				},
+				increment: function(){
+					this.counter++;
+				}
+			};
+		})*/
+
+
+		counterModule.service('Counter',  function(){
+			var counter = 1
+			
+			this.get = function(){
+					return counter;
+			},
+
+			this.increment =  function(){
+					counter++;
+			}
+		})
+
+		var app = angular.module('main', ['counter']);
+
+		app.controller('DisplayController', ['$scope', 'Counter' function($scope, counter){
+			$scope.get = Counter.get;
+			
+		}])
+
+		app.controller('CounterController', ['$scope', 'Counter', 
+			function($scope, Counter){
+				$scope.increment = Counter.increment;
+			}
+		]);
+	
+	</script>
+</head>
+<body ng-app = "main">
+	<div ng-controller="CounterController">{{counter.get()}}</div>
+	<div ng-controller="CounterController2"
+	<button ng-click="counter.increment()">Increment</button>
+</body>
+</html>

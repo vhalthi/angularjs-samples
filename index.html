@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script type="text/javascript">
+		var app = angular.module('main', []);
+		app.controller('MyController', ['$scope', function(){
+			
+		}])
+
+	</script>
+</head>
+<body ng-app ="main">
+	<div ng-controller="MainCtrl">
+		<button ng-click="getAddress()">GET</button>
+		<div contentEditable="true">Smith</div>
+	</div>
+
+</body>
+</html>
